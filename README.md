@@ -113,4 +113,13 @@ make verify-<your_design_name>-rtl
 + The above gtkwave vcd can be found in the dv directory in the verilog directory.
 
 + Let us update the tests.
-+ 
++ Change the required variables in the testbench file so that the code waits till the correct output comes and then declares the test passed.
++ Since we have already tested the design previously we can move on to the next step.
+
+### Final GDS
+
++ This is what the final gds file looks like
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/005d60ce-597f-404f-a8b6-c17c403d95f6)
+
+
