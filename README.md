@@ -118,6 +118,10 @@ make verify-<your_design_name>-rtl
 
 ### Final GDS
 
++ After the final run and completion of flow, this is what the output looks like
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/fa65c286-3e7a-4a76-a854-7c0b5371246a)
+
 + This is what the final gds file looks like
 
 ![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/005d60ce-597f-404f-a8b6-c17c403d95f6)
