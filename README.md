@@ -184,14 +184,203 @@ make verify-<your_design_name>-rtl
 
 </details>
 
-### Final GDS
+### Getting ready for running the tool flow
 
-+ After the final run and completion of flow, this is what the output looks like
+<details>
+  <summary>Setting up directories in openlane</summary>
+
++ As mentioned, we made this repository using a template from efables.
++ Therefore there is a template available for us for the openlane flow directory.
++ Go to the openlane directory using `cd`.
++ Type the following in it
+```
+cp -r user_proj_example/ <your_design_name> 
+```
++ This will copy all the files from `user_proj_example` to another folder named `<your_design_name`.   
+</details>
+
+<details>
+  <summary>Changing the config flie</summary>
+
++ You have to edit the `config.json` file to make sure it is good for your design.
++ Open the `config.json` file.
++ Under the `DESGIN_NAME`, change from `user_proj_example` to your design name.
++ Do the same under `VERILOG_FILES`.
++ My `config.json` looks like this after changing.
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/ef7e6e01-2460-45d3-bc01-62b03c106a93)
+
++ Change the name `CLOCK_PORT` to whatever variable the clock signal has in your design module.
++ Reduce or increase the `DIE_AREA` based on the size of your design.
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/16fd6c08-1fda-426f-8914-66bd3a27d3a2)
+
++ Change the `MAX_FANOUT_CONSTRAINT` also if you want. I have mine set at 20. 
+</details>
+
+<details>
+  <summary>Setiing the pins</summary>
+
++ You need to add the pins to the `pin_order_cfg` file.
++ It should be based on your design file. All the input and output ports that you are using should be mentioned here **except the power pins**.
++ My design file has the following inputs and outputs.
+```verilog
+module pes_ram_design_tapeout(
+`ifdef USE_POWER_PINS
+  inout vccd1,	// User area 1 1.8V supply
+  inout vssd1, // User area 1 digital ground
+`endif 
+
+  input [7:0] data_a, data_b, //input data
+  input [5:0] addr_a, addr_b, //Port A and Port B address
+  input we_a, we_b, //write enable for Port A and Port B
+  input clk, //clk
+  output reg [7:0] q_a, q_b, //output data at Port A and Port B
+  output wire [15:0] io_oeb
+);
+```
++ This is what my `pin_order.cfg` looks like. Since I am using 16 bit `oeb`, I have added more `io_oeb` variables.
+```verilog
+#BUS_SORT
+
+#S
+wb_.*
+wbs_.*
+la_.*
+irq.*
+
+#E
+clk
+we_a
+we_b
+addr_a\[0\]
+addr_b\[0\]
+data_a\[0\]
+data_b\[0\]
+q_a\[0\]
+q_b\[0\]
+addr_a\[1\]
+addr_b\[1\]
+data_a\[1\]
+data_b\[1\]
+q_a\[1\]
+q_b\[1\]
+addr_a\[2\]
+addr_b\[2\]
+data_a\[2\]
+data_b\[2\]
+q_a\[2\]
+q_b\[2\]
+addr_a\[3\]
+addr_b\[3\]
+data_a\[3\]
+data_b\[3\]
+q_a\[3\]
+q_b\[3\]
+addr_a\[4\]
+addr_b\[4\]
+data_a\[4\]
+data_b\[4\]
+q_a\[4\]
+q_b\[4\]
+addr_a\[5\]
+addr_b\[5\]
+data_a\[5\]
+data_b\[5\]
+q_a\[5\]
+q_b\[5\]
+data_a\[6\]
+data_b\[6\]
+q_a\[6\]
+q_b\[6\]
+data_a\[7\]
+data_b\[7\]
+q_a\[7\]
+q_b\[7\]
+
+io_oeb\[0\]
+io_oeb\[1\]
+io_oeb\[2\]
+io_oeb\[3\]
+io_oeb\[4\]
+io_oeb\[5\]
+io_oeb\[6\]
+io_oeb\[7\]
+
+#WR
+io_oeb\[8\]
+io_oeb\[9\]
+io_oeb\[10\]
+io_oeb\[11\]
+io_oeb\[12\]
+io_oeb\[13\]
+io_oeb\[14\]
+io_oeb\[15\]
+io_oeb\[16\]
+io_oeb\[17\]
+io_oeb\[18\]
+io_oeb\[19\]
+io_oeb\[20\]
+io_oeb\[21\]
+io_oeb\[22\]
+io_oeb\[23\]
+```
++ Add all the `\` in the right places as shown above.
++ For single bit variables, don't add any `\`. My `clk` signal is single bit.
+</details>
+
+<details>
+  <summary>Running to toolflow</summary>
+
++ Now to run the entire toolflow, come out of openlane and be in your repo's directory.
++ Make sure you are in the terminal where you did your `export` commands initially in your `dependencies` folder. If you are in a different terminal, do those steps again.
++ Once you are ready in your repo's folder, type the following and replace `<your_design_name>` with your design name what you have given everywhere.
+```
+time make <your_design_name>
+```
++ The openlane tool will start and synthesis to gds will be done here.
+
+<details>
+  <summary>Possible Errors</summary>
+  
++ You might get some erros in between. Correct them and try again.
++ Some errors could be placement errors saying `unmatched_pins`. This means that there is some issue with the names in your `pin_order.cfg` file.
++ Another placement error could occur, which is actually a python error. This again could be an issue with the `\` in your `pin_order.cfg` file.
++ Larger die area will increase the complexity of power distribution network. Therefore keep it exactly how much is required.
++ Smaller die area might give your a `die area too small` error or something similar due to high density of power distribution network lines.
++ During `detailed_routing`, your system might start using up a lot of ram and end up hanging. To prevent this make sure you have system monitor opened on the side and monitor the ram.
++ If your ram usage goes beyond 90% usage, stop the flow. Reduce the `DIE_AREA` a little and try again.
++ Larger die area consumes more memory.
++ If you run out of memory while trying different parameters, delete the old runs and that will give you some space.
++ The runs will be in the `runs` directory in `openlane/<your_design_name>`.
++ Use `rm -r <run_name>` to recorsively delete everything in that particular run.
+</details>
+
+<details>
+  <summary>Cheking the tool flow completion</summary>
+
++ After the final run and completion of flow, you will get a `[SUCESS]: Flow complete` message in the termninal just like how you got for the `user_proj_example`
++ This is what the output looks like after finishing.
++ Fanout violations can be corrected by changing the fanout parameters in the `config.json` file. I am not doing that for the time being since it is just a rule of thumb and not compulsory.
 
 ![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/fa65c286-3e7a-4a76-a854-7c0b5371246a)
+</details>
 
-+ This is what the final gds file looks like
+<details>
+  <summary>Viewing the GDS file</summary>
+  
++ To view the GDS file in your runs, go the runs directory of your most recent run.
++ The runs will be in the `runs` directory in `openlane/<your_design_name>`.
++ Your gds file will be in the following path. Change `<your_design_name>` with your design name accordingly.
+```
+/home/vishnu/<your_design_name>/openlane/<your_design_name>/runs/23_11_26_01_03/results/final/gds
+```
++ Go to the above directory and type
+```
+klayout <your_design_name>
+```
++ This is what my final gds file looks like
 
 ![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/005d60ce-597f-404f-a8b6-c17c403d95f6)
 
-
+</details>
