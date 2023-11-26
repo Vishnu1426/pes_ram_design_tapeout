@@ -118,6 +118,7 @@ gedit includes.rtl.caravel_user_project
 
 <details>
   <summary>Creating a testbench directory with the right names</summary>
+
 + Go to the 'dv' directory.
 + Type the follwing'
 ```
@@ -132,7 +133,7 @@ rename s/io_ports/<your_design_name>/ *
   <summary>Editing the files</summary>
   
 + Open the .c file.
-+ Change the port number to start from 8, if you have started from port 8.
++ Change the port number to start from 8, if you have started from port 8 in the wrapper file.
 + Add or delete ports based on the number of ports you are actually using.
 + My file looks like this after adding.
 
@@ -221,7 +222,7 @@ cp -r user_proj_example/ <your_design_name>
 <details>
   <summary>Setiing the pins</summary>
 
-+ You need to add the pins to the `pin_order_cfg` file.
++ You need to add the pins to the `pin_order.cfg` file.
 + It should be based on your design file. All the input and output ports that you are using should be mentioned here **except the power pins**.
 + My design file has the following inputs and outputs.
 ```verilog
@@ -330,10 +331,10 @@ io_oeb\[23\]
 </details>
 
 <details>
-  <summary>Running to toolflow</summary>
+  <summary>Running the tool-flow</summary>
 
-+ Now to run the entire toolflow, come out of openlane and be in your repo's directory.
-+ Make sure you are in the terminal where you did your `export` commands initially in your `dependencies` folder. If you are in a different terminal, do those steps again.
++ Now to run the entire tool-flow, come out of openlane and be in your repo's directory.
++ Make sure you are in the terminal where you did your `export` commands initially in your `dependencies` folder. If you are in a different terminal, do those `export` commands again.
 + Once you are ready in your repo's folder, type the following and replace `<your_design_name>` with your design name what you have given everywhere.
 ```
 time make <your_design_name>
@@ -375,9 +376,9 @@ time make <your_design_name>
   
 + To view the GDS file in your runs, go the runs directory of your most recent run.
 + The runs will be in the `runs` directory in `openlane/<your_design_name>`.
-+ Your gds file will be in the following path. Change `<your_design_name>` with your design name accordingly.
++ Your gds file will be in the following path. Change `<your_computer_name>` and `<your_design_name>` with your design name accordingly.
 ```
-/home/vishnu/<your_design_name>/openlane/<your_design_name>/runs/23_11_26_01_03/results/final/gds
+/home/<your_computer_name>/<your_design_name>/openlane/<your_design_name>/runs/23_11_26_01_03/results/final/gds
 ```
 + Go to the above directory and type
 ```
@@ -415,9 +416,12 @@ klayout <your_design_name>
 + Next type `git status` to get the status of all the changed files.
 + Using `git add` add all the files that are visible from the previous command to have been modified.
 + Then type `git commit -m '<commit desc>`
-+ Now pull from the remote repo for any changes.
++ Now pull from the remote repo to update changes.
 ```
 git pull
 ```
-+ Now type `git push` to push the files to Github repo. Reload the page and all your files will be updated in the remore repository,
++ Now type the following to push the files to Github repo. Reload the page and all your files will be updated in the remore repository,
+```
+git push
+```
 </details>
