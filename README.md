@@ -339,6 +339,7 @@ io_oeb\[23\]
 time make <your_design_name>
 ```
 + The openlane tool will start and synthesis to gds will be done here.
+</details>
 
 <details>
   <summary>Possible Errors</summary>
@@ -350,6 +351,9 @@ time make <your_design_name>
 + Smaller die area might give your a `die area too small` error or something similar due to high density of power distribution network lines.
 + During `detailed_routing`, your system might start using up a lot of ram and end up hanging. To prevent this make sure you have system monitor opened on the side and monitor the ram.
 + If your ram usage goes beyond 90% usage, stop the flow. Reduce the `DIE_AREA` a little and try again.
++ My design is an 8x64 bit ram. I had to change the die area by first making it 8x4 bit and checking how my computer's RAM usage in `detailed_routing` was affected.
++ I started with a large die area for 8x4 bit ram, and subsequently modified the die area so that it was just enough.
++ Then I increased it  to 8x8, then 8x16, then 8x32 and then finally 8x64. I had to run all of them to get a good and optimal die area for my design.
 + Larger die area consumes more memory.
 + If you run out of memory while trying different parameters, delete the old runs and that will give you some space.
 + The runs will be in the `runs` directory in `openlane/<your_design_name>`.
@@ -379,8 +383,41 @@ time make <your_design_name>
 ```
 klayout <your_design_name>
 ```
-+ This is what my final gds file looks like
++ This is what my final GDS layout looks like
 
 ![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/005d60ce-597f-404f-a8b6-c17c403d95f6)
 
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/401951dd-765a-4543-be03-b4086e29f076)
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/5e51e11a-242f-48f5-8ee3-8cbcc2fef9d5)
+
++ Output pins
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/5ede0a5f-3674-4b19-a48e-6f6cd5c7b3a1)
+
++ One of the input pin
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/6ad6c454-58b4-484f-96f8-d7381d8d4bee)
+
++ This area has a relatively very high density of cells.
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/edd462c0-38ca-4a08-b9f5-0ee0d74f25e1)
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/bac4235f-9da6-442e-ad24-c5a96af4c0cb)
+
+</details>
+
+<details>
+  <summary>Commiting your files to Github</summary>
+
++ Go to your repo's directory.
++ This will update your local repo with whatever changes have been made remotely,
++ Next type `git status` to get the status of all the changed files.
++ Using `git add` add all the files that are visible from the previous command to have been modified.
++ Then type `git commit -m '<commit desc>`
++ Now pull from the remote repo for any changes.
+```
+git pull
+```
++ Now type `git push` to push the files to Github repo. Reload the page and all your files will be updated in the remore repository,
 </details>
