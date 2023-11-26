@@ -1,4 +1,4 @@
-# DUAL PORT RAM - TAPEOUT
+# PES_RAM_DESIGN - TAPEOUT
 
 ## Using caravel_user_project template to start your project
 <details>
@@ -184,7 +184,7 @@ make verify-<your_design_name>-rtl
 
 </details>
 
-### Getting ready for running the tool flow
+## Getting ready for running the tool flow
 
 <details>
   <summary>Setting up directories in openlane</summary>
