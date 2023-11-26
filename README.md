@@ -1,38 +1,56 @@
+# DUAL PORT RAM - TAPEOUT
+
+### Using caravel_user_project template to start your project
+<details>
+  <summary>Creating a Repo and cloning it to your local system</summary>
+  
++ First go to this link to [`caravel_user_project`](https://github.com/efabless/caravel_user_project) and create a repository using the template.
++ Copy your newly created github repository link from the `<> Code` menu in github.
+
+![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/0e9494c8-6c6f-4271-80ef-ec02c010415e)
+
++ Then go to your terminal and open root user by typing `sudo su`. Type your password and your will be in root.
++ Type the following code and change the `<your repo link>` with your repository link that you copied and press `Enter`.
 ```
-git clone https://github.com/Vishnu1426/pes_ram_design_tapeout.git
+git clone <your repo link>
 ```
 
 ![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/7eb5fb81-1d01-427f-b8da-ab4f3d549a51)
 
-```
-mkdir ~/asic
-export OPENLANE_ROOT=~/asic/openlane
-export PDK_ROOT=~/asic/pdk
-cd pes_ram_design_tapeout/
++ Now, create a directory named `dependencies` where all your dependencies will be present. You will have to manually export the variables to point to this `dependencies` directory.
++ Replace `<your_repo_name>` with the name of your repository that you cloned.
+```Mint
+mkdir dependencies
+export OPENLANE_ROOT=$(pwd)/dependencies/openlane_src
+export PDK_ROOT=$(pwd)/dependencies/pdks
+cd <your_repo_name>
 make setup
 ```
++ Now your repository cloning is complete.
+</details>
 
-![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/75b6f73e-1f9c-4711-9514-2e420b96bcc4)
+<details>
+  <summary>Running a sample project</summary>
 
++ To check if everything is working fine we can run an example project which comes with the template.
++ To do this type the following after going into the directory of your cloned repository.
 ```
 make user_proj_example
 ```
++ It takes some time and starts like this:
 
 ![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/cb8ef924-7126-4c3f-830d-e67c09c4cbdd)
 
-```
-cd pes_ram_design_tapeout/
-git remote add ef-repo ssh://git@repositories.efabless.com/vishnu1426/pes_ram_design_taepeout.git
-git remote
-```
++ Once it is completed, you get a `[sucess]: Flow complete` message in the terminal. This means that the flow has been completed.
 
++ You can check your gds output if you want to using klayout.
++ If you don't have klayout already installed, in a new terminal, type
 ```
-git push -u ef-repo main
-
+sudo apt install klayout
 ```
+</details>
 
-![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/63c90e6e-9b06-4031-a5b7-e28bf8bc0a55)
-
+<details>
 + Type out your module name and instance name. Change from user_proj_example to your module name.
 ![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/6f899f50-d24a-4782-b0f9-4fbbbc6aeb85)
 
