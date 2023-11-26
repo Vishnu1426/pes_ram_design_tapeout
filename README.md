@@ -4,7 +4,7 @@
 <details>
   <summary>Creating a Repo and cloning it to your local system</summary>
   
-+ First go to this link to [`caravel_user_project`](https://github.com/efabless/caravel_user_project) and create a repository using the template.
++ First go to this link [`caravel_user_project`](https://github.com/efabless/caravel_user_project) and create a repository using the template.
 + Copy your newly created github repository link from the `<> Code` menu in github.
 
 ![image](https://github.com/Vishnu1426/pes_ram_design_tapeout/assets/79538653/0e9494c8-6c6f-4271-80ef-ec02c010415e)
